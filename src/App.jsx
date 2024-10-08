@@ -7,6 +7,11 @@ function App() {
   const [err, setErr] = useState("");
   const [encryptionMethod, setEncryptionMethod] = useState("ascii");
   const shift = 10; // Сдвиг для шифра Цезаря
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setModalOpen(!isModalOpen);
+  };
 
   // Изменение строки
   const handleChangeStr = (e) => {
@@ -153,6 +158,43 @@ function App() {
             <option value="caesar">Шифр Цезаря</option>
           </select>
         </div>
+
+        <div className={"flex justify-end"}>
+          <p className={"font-medium p-2"} onClick={toggleModal}>?</p>
+        </div>
+
+        {isModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white rounded-lg p-2 shadow-lg relative">
+                <button
+                    className="absolute right-0 top-0 text-gray-500 hover:text-gray-700"
+                    onClick={toggleModal}
+                >
+                  &times;
+                </button>
+                <h2 className={"mb-2 font-medium text-lg"}>Справка</h2>
+                <div className={"flex flex-col gap-2"}>
+                <p>Шифрование с помощью:<br/>
+                  1. Шифрование с использованием таблицы ASCII
+                  Каждый символ строки преобразуется в его ASCII-значение,
+                  а затем применяется операция (например, прибавление значения)
+                  для изменения этих значений.
+
+
+
+                 </p>
+                <p>2. Base64
+                  Метод кодирования бинарных данных в текстовом формате.
+                  Каждые 3 байта входных данных преобразуются в 4 символа
+                  Base64, используя 64 символа.</p>
+                <p> 3. Шифр Цезаря
+                  Простой алгоритм, который сдвигает каждую букву текста
+                  на фиксированное число позиций в алфавите.
+                  Например, сдвиг на 3 означает, что 'A' станет 'D'.</p>
+                </div>
+              </div>
+            </div>
+        )}
 
         {err && <p className='text-red-500'>{err}</p>}
       </div>
